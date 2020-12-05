@@ -30,7 +30,11 @@ The dataset is obtained and downloaded from Economic Research Service of United 
 
 ### Findings
 
-
+In conclusion, because data collection was Questionnaire, resulting large problem on statistical analysis for different indicators. Two estimated coefficients within the multi-regression model are not enough for concluding the strong association as we expected, we still can fit the model with the analysis of association generated from the plot with statistical significance from the dataset. However, due to inclination on preferring integers and recall biases resided in respondents, continuous variables are negatively impacted by data collection. Generally, eating health by using BMI as the measured parameter is affected positively with personal physical activities and negatively with fast food consumption.
+  
+On average, people spend half an hour longer on primary eating than secondary eating.
+  
+  
 
 ### Report
 

@@ -1,0 +1,70 @@
+---
+title: "Descriptive Statistics"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(pastecs)
+library(plotly)
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+```
+
+
+```{r}
+ehresp = read.csv("ehresp_2014.csv")
+```
+The dataset contains `r nrow(ehresp)` responses and `r ncol(ehresp)` variables. We will examine bmi as an outcome variable, and how factors such as income level, exercise frequency, access to grocery stores, primary eating time, and secondary eating time, contribute to bmi.
+
+
+# Income level.
+```{r}
+income_tbl = 
+  ehresp %>%
+  count(tucaseid) %>%
+  mutate(
+    erincome = factor(ehresp$erincome, levels = c(-1, 1, 2, 3, 4, 5), labels = c("Blank", "Income > 185% of poverty threshold", "Income <= 185% of poverty threshold", "130% of poverty threshold < Income < 185% of poverty threshold", "Income > 130% of poverty threshold", "Income <= 130% of poverty threshold"))
+  ) %>%
+  plot_ly(x = ~erincome, y = ~n, color = ~erincome, type = "bar")
+
+income_tbl
+```
+
+The majority of the study objects are on the highest income level - their income is greater than 185% of poverty threshold. The income level with the second largest study population come from people who are below or equal to 130% of poverty threshold. Only 36 study subjects have income greater than 130% of poverty threshold.
+
+# BMI, height, and weight.
+```{r}
+ehresp %>%
+   select(erbmi, euhgt, euwgt) %>%
+   filter(erbmi > 0, euhgt > 0, euwgt > 0) %>%
+   summary() %>%
+   format(scientific = F, digits = 2)
+```
+Among all study objects, the mean height is 66.69 inches, and the mean weight is 176.3 pounds.
+
+The mean BMI is 27.77, and third quantile is 30.7, while the maximum BMI is 73.6. We suspect there might be some BMI outliers on the upper end.
+
+```{r}
+ehresp %>%
+  filter(erbmi > 0, euhgt > 0, euwgt > 0) %>%
+  ggplot(aes(x = "", y = erbmi)) + 
+  geom_boxplot()
+```
+Column {data-width=350}
+The boxplot did show that there are more outliers on the upper end than on the lower end of BMI.

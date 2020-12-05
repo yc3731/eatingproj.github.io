@@ -30,4 +30,3 @@ Our report can be found [here](classfication_report.html).
 - Yue Chen yc3732      ｜[Website](https://yc3731.github.io/)
 - Qianhui Xu qx2199    ｜[Website](https://qx2199quintus.github.io/)
 - Shunyi Zhang sz2872  ｜[Website](https://shane-1996.github.io/)
-yc3731.github.io

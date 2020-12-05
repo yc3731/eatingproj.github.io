@@ -84,6 +84,7 @@ raw_eathealth %>%
 The boxplot did show that there are more outliers on the upper end than on the lower end of BMI.
 
 #### Association Analysis for different Indicators vs. Eating Health
+
 Here in this section, want to examine the asscociation between external factors and BMI.Sometimes we are intersted in the category that the BMI is refer to. .According to the WHO BMI standard, we categorize BMI into four categories: "Underweight","Normal","Overweight","Obese", then we want to comare the proportion of each BMI status among indicator categories.Therefore, according to distribution of the data, for indicatorsincome and household conditions, and we use categorized BMI
 
 ```{r setup, include=FALSE}
@@ -132,8 +133,8 @@ external_indicators_two = raw_eathealth_2 %>%
        )%>%
 rename("bmi"="erbmi", "income"="erincome","place_get_groceries" ="eustores","change_in_work_of_sponsor" = "erspemch")
 ```
-#categorize BMI
-```{r}
+
+```{r include=FALSE}
 external_category_crude =
 raw_eathealth_2 %>%
   select(erbmi, eugenhth, erincome, eustores,erspemch) %>%
@@ -150,7 +151,7 @@ rename("bmi"="erbmi", "income_threhold"="erincome","place_get_groceries" ="eusto
 mutate(bmi_new =cut(bmi, breaks=c(-Inf,18.5, 25, 30, Inf), labels=c("Underweight","Normal","Overweight","Obese")))
 ```
 
-# Plot for Distribution by Income and BMI
+#### Plot for Distribution by Income and BMI
 ```{r}
 counts <- table(external_category_crude$bmi_new, external_category_crude$income)
 barplot(counts, main="Distribution by Income and BMI",
@@ -158,10 +159,10 @@ barplot(counts, main="Distribution by Income and BMI",
   legend = rownames(counts),beside=TRUE)
 ```
 
-From the plot, we could see that the higher-income population has larger proportion of normal weighted population and lower proprotion of Obese population than in the lower-income groups. One thing worth to mention is  that the proportion of obese populaion is even higher than that of normal-weighted person among the lowest income group, which give us public health implications that we need to consider the low-income population as vulerable population for obesity.
+From the plot, we could see that the higher-income population has larger proportion of normal weighted population and lower proprotion of obese population than that in the lower-income groups. One thing worthy to mention is that the proportion of obese populaion is even higher than the proportion of normal-weighted population among the lowest income group, which gives us public health implications that we need to consider the low-income population as vulnerable population for obesity.
 
 
-# Plot for Distribution by spouse conditions and BMI
+#### Plot for Distribution by spouse conditions and BMI
 ```{r}
 external_categ_house = external_category_crude %>%
 group_by(bmi_new,change_in_work_of_spouse)%>%
@@ -175,16 +176,18 @@ house=
 ggplot(external_categ_house) + geom_col(aes(x = 1, y = n, fill =bmi_new), position = "fill") +coord_polar(theta = "y") + facet_wrap(~ change_in_work_of_spouse) 
 house
 ```
-We are interested in this area is because we concern whether spouse's working status would actually influence the health status. Interestingly, the proportion of normal population among partner's working time increase are approximaterly the same as that among partner's lose job. Also, the proportion of normal weightes population among partner's lose job a are significantly higher than that among partner's find  job.In addition, we could not see a trend of increase or decrease of the proportion of neither normal weighted nor obese population among these five household conditions. Therefore, it seems like spouse's working status will not significantly influence BMI.
+We are interested in this area is because we concern whether spouse's working status would actually influence BMI. Interestingly, the proportion of normal population among "partner's working time increase" group are approximaterly the same as that among "partner's lose job"group. Also, the proportion of normal weight population among "partner's lose job"group are significantly higher than that among" partner's find  job"group .In addition, we could not see a trend of increase or decrease of the proportion of neither normal weighted nor obese population among those 5 household conditions. Therefore, it seems like spouse's working status will not significantly influence BMI.
 
-# Plot for preferenece in grocery store 
+#### Plot for preferenece in grocery store 
+
 ```{r}
 plot_stor_bmi_one=
 external_indicators_two %>%
 ggplot(aes(x=bmi,fill = place_get_groceries))+geom_density(alpha=0.5)+facet_grid(place_get_groceries~.)+scale_x_continuous( breaks = seq(10,60,3),limits =c(10,60))+labs( title = "Distribution of BMI for different places get groceries", x = "BMI", y="Density")+theme(legend.position = "bottom", plot.title = element_text(vjust = 5),panel.spacing = unit(1, "lines"))+scale_fill_manual(values=c("#6495ED","#8FB78F","#56B4E9","66cc99","#FF8754"))
 plot_stor_bmi_one
 ```
-From the density plot, we could se that the distribution for the BMI are approximatelu the same among people who shops in Crocerystore, Supercenter and warehouse club. However, for people who Consume products in Drugstore or convenience store, the BMI are relative higher that shoppers with other shopping-preferences, one thing need to mention that people who shoppers in other places looks relatively healthier, we could inverstigate where they shop or why they made this decision, and explore this in the future. 
+
+From the density plot, we could see that the distribution for the BMI are approximately the same among people who shops in grocery store, super center and warehouse club. However, for people who consume products in drugstore or convenience store, the BMI are relative higher,comparing with shoppers with other shopping preferences.Therefore,public health workers could investigate the types of food sold in drug stores in the future, to determine why the BMIs among people who loves to shop in drug store are higher. Another thing worthy to mention is that people who shops in other places looks relatively healthier with lower BMI, we could investigate where they shop or why they made this decision, and explore this in the future. 
 
 
 

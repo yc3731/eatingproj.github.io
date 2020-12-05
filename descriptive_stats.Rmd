@@ -1,5 +1,6 @@
 ---
 title: "Descriptive Statistics"
+author: "Yue Chen"
 output: html_document
 ---
 

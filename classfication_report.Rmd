@@ -1,18 +1,19 @@
 ---
-title: "Classcification Report for Eating and Health Module"
+title: "Classification Report for Eating and Health Module"
 author: "Group Heheda"
 date: "12/5/2020"
 output: html_document
 ---
 
-### Introduction
+# Introduction
 
-  Nowadays, as the socioeconomoic level of people' lives develops, more and more attention are paid at enhancing personal health and lifestyles. Eating health, as an indispensable component of individual's biological maintainence, plays a vital role in strengthening personal immunity and preventing chronic diseases, including regular eating habits and nutritional diets. Addressed in "Eating and Health Module" (2019, Economic Research Service), eating patterns are strongly affected by people's economic status and behaviors, including household income, engagements in physical activities, food preparation styles, accessibilities to grocery stores, and etc. From the aspect of public health and policy, understanding how these indicators affect personal eating health can assist the government to develop effective and efficient food and nutrition assistance programs, increasing stable and harmonized relationship between people and society. This project, starting from these beneficial standspoint, explores impacts of  different indicators on personal eating health.
+  Nowadays, as the socioeconomoic level of people' lives develops, more and more attention are paid on enhancing personal health and lifestyles. Eating health, as an indispensable component of individual's biological maintainence, plays a vital role in strengthening personal immunity and preventing chronic diseases, including regular eating habits and nutritional diets. Addressed in "Eating and Health Module" (2019, Economic Research Service), eating patterns are strongly affected by people's economic status and behaviors, including household income, engagements in physical activities, food preparation styles, accessibilities to grocery stores, and etc. From the aspect of public health and policy, understanding how these indicators affect personal eating health can assist the government to develop effective and efficient food and nutrition assistance programs, increasing stable and harmonized relationship between people and society. This project, starting from these beneficial standspoints, explores impacts of different indicators on personal eating health.
   
-### Data
+## Data
 
 #### Dataset Information
-  The dataset is obtained and downloaded from Economic Research Service of United States Department of Agriculture, named "Eating and Health Module". The dataset is case-specific repsondent file, including general personal biolgical information (height, weight), household information (income, engaged government assistance programs), eating habits (fast food consumption, drink habits, food preparation), and physcial activities of repsondents. The whole data collection was conducted by Questionnaire and Survey, based on answers of voluntary respondents. We mainly started with exploring sample selection of repsondents via several descriptive statistics on their general health information. Then we analyzed associations or distributions of internal or external indicators for understanding their impacts on personal eating health by using persoanl BMI value as the parameter, including accessibilities of grocery stores, conditions of household income, frequency of fast food consumptions and engagements of physical activities. Analysis would include different association plots and multi-linear regression model. We aso established the hypothesis testing for measuring similarity or difference resided between primary and secondary eating behaviors of respondents.
+
+  The dataset is obtained from Economic Research Service of United States Department of Agriculture, named "Eating and Health Module". The dataset is case-specific respondent file, including general personal biological information (height, weight), household information (income, engaged government assistance programs), eating habits (fast food consumption, drink habits, food preparation), and physical activities of respondents. The whole data collection was conducted by Questionnaire and Survey, based on answers of voluntary respondents. We started with exploring sample selection of respondents via several descriptive statistics on their general health information. Then we analyzed associations or distributions of internal or external indicators to understand how they impact the health. We use BMI value as the outcome parameter. The factors we are interested in are accessibilities to grocery stores, household income level, frequency of fast food consumptions and engagements of physical activities. Analysis would include different association plots and multi-linear regression model. We also established the hypothesis testing for measuring similarity or difference resided between primary and secondary eating behaviors of respondents.
 
 ```{r, include=FALSE, warning=FALSE, message=FALSE}
 library(tidyverse)
@@ -39,9 +40,17 @@ raw_eathealth = read_csv("ehresp_2014.csv")
 ```
 
 #### Tidy Process
-  The raw dataset contains `r nrow(raw_eathealth)` observations and `r ncol(raw_eathealth)` variables. We selected 10 variables for our project. Variables consists of categorical variables, logical variables and continuous with the validation rule of reporting positive or specified positive value. However, because the dataset is totally based on willingness of voluntary respondent via Questionnaire, there are a large amount of invalid data entries, like negative values as the repsondent was not willing to answer certain questions. Also, for multiple continous variables, like frequency of fast food consumptions or frequency of exercises, data mainly focused on certain integers, resulting that continuous variables are more likely categorical variables. 
+
+  The raw dataset contains `r nrow(raw_eathealth)` observations and `r ncol(raw_eathealth)` variables. We selected 10 variables of interest for our project. Variables consists of categorical variables, logical variables and continuous with the validation rule of reporting positive or specified positive value. However, because the dataset is totally based on willingness of voluntary respondent via Questionnaire, there is a large amount of invalid data entries, like negative values meaning that the respondent was not willing to answer certain questions. Also, for multiple continous variables, like frequency of fast food consumptions and frequency of exercises, data mainly focused on certain integers, resulting that continuous variables are more likely categorical variables. 
   
   Because the original dataset contains lots of categorical variables, we firstly recode all categorical variable into corresponding categories following the codebook provided along with the dataset. And for excluding invalid values, the original raw dataset was tidied into desired one based on different statistical analysis. 
+
+# Statistical Analysis
+
+## Descriptive Statistics for Respondents
+
+### Income level.
+```{r}
 
 
 
@@ -52,7 +61,7 @@ raw_eathealth = read_csv("ehresp_2014.csv")
 
 
 ##### Income level.
-```{r, echo = FALSE}
+
 income_tbl = 
   raw_eathealth %>%
   count(tucaseid) %>%
@@ -66,15 +75,16 @@ income_tbl
 
 The majority of the study objects are on the highest income level - their income is greater than 185% of poverty threshold. The income level with the second largest study population come from people who are below or equal to 130% of poverty threshold. Only 36 study subjects have income greater than 130% of poverty threshold.
 
+### BMI, height, and weight.
 
-##### BMI, height, and weight.
-```{r, echo = FALSE}
+```{r}
 raw_eathealth %>%
    select(erbmi, euhgt, euwgt) %>%
    filter(erbmi > 0, euhgt > 0, euwgt > 0) %>%
    summary() %>%
    format(scientific = F, digits = 2)
 ```
+
 Among all study objects, the mean height is 66.69 inches, and the mean weight is 176.3 pounds.
 
 The mean BMI is 27.77, and third quantile is 30.7, while the maximum BMI is 73.6. We suspect there might be some BMI outliers on the upper end.
@@ -89,10 +99,14 @@ raw_eathealth %>%
 The boxplot did show that there are more outliers on the upper end than on the lower end of BMI.
 
 
+# Association Analysis for different Indicators vs. Eating Health
 
-#### Association Analysis for different Indicators vs. Eating Health
 
-Here in this section, want to examine the association between external factors and BMI.Sometimes we are interested in the category that the BMI is refer to.According to the WHO BMI standard, we categorize BMI into four categories: "Underweight","Normal","Overweight","Obese", then we want to compare the proportion of each BMI status among indicator categories.Therefore, according to distribution of the data, for indicators, income and household conditions, and we use categorized BMI
+
+## Association Analysis for different Indicators vs. Eating Health
+
+
+Here in this section, we want to examine the association between external factors and BMI.Sometimes we are interested in the category that the BMI is refer to.According to the WHO BMI standard, we categorize BMI into four categories: "Underweight","Normal","Overweight","Obese", then we want to compare the proportion of each BMI status among indicator categories.Therefore, according to distribution of the data, for indicators, income and household conditions, and we use categorized BMI
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
@@ -158,7 +172,8 @@ rename("bmi"="erbmi", "income_threhold"="erincome","place_get_groceries" ="eusto
 mutate(bmi_new =cut(bmi, breaks=c(-Inf,18.5, 25, 30, Inf), labels=c("Underweight","Normal","Overweight","Obese")))
 ```
 
-##### Plot for Distribution by Income and BMI
+### Plot for Distribution by Income and BMI
+
 ```{r, echo = FALSE}
 counts <- table(external_category_crude$bmi_new, external_category_crude$income)
 barplot(counts, main="Distribution by Income and BMI",
@@ -169,7 +184,8 @@ barplot(counts, main="Distribution by Income and BMI",
 From the plot, we could see that the higher-income population has larger proportion of normal weighted population and lower proprotion of obese population than that in the lower-income groups. One thing worthy to mention is that the proportion of obese populaion is even higher than the proportion of normal-weighted population among the lowest income group, which gives us public health implications that we need to consider the low-income population as vulnerable population for obesity.
 
 
-##### Plot for Distribution by spouse conditions and BMI
+### Plot for Distribution by spouse conditions and BMI
+
 ```{r, echo = FALSE}
 
 external_categ_house = external_category_crude %>%
@@ -187,11 +203,12 @@ house
 
 We are interested in this area is because we concern whether spouse's working status would actually influence BMI. Interestingly, the proportion of normal population among "partner's working time increase" group are approximaterly the same as that among "partner's lose job"group. Also, the proportion of normal weight population among "partner's lose job"group are significantly higher than that among" partner's find  job"group .In addition, we could not see a trend of increase or decrease of the proportion of neither normal weighted nor obese population among those 5 household conditions. Therefore, it seems like spouse's working status will not significantly influence BMI.
 
-##### Plot for preferenece in grocery store 
+### Plot for preferenece in grocery store 
 ```{r, echo = FALSE}
 plot_stor_bmi_one=
 external_indicators_two %>%
 ggplot(aes(x=bmi,fill = place_get_groceries))+geom_density(alpha=0.5)+facet_grid(place_get_groceries~.)+scale_x_continuous( breaks = seq(10,60,3),limits =c(10,60))+labs( title = "Distribution of BMI for different places get groceries", x = "BMI", y="Density")+theme(legend.position = "bottom", plot.title = element_text(vjust = 5),panel.spacing = unit(1, "lines"))+scale_fill_manual(values=c("#6495ED","#8FB78F","#56B4E9","66cc99","#FF8754"))
+
 plot_stor_bmi_one
 ```
 
@@ -199,13 +216,11 @@ From the density plot, we could see that the distribution for the BMI are approx
 
 
 
-#### Multi-regression Model for BMI vs. Frequency of Fast Food Consumption and Exercises
+## Multi-regression Model for BMI vs. Frequency of Fast Food Consumption and Exercises
 
-  As the rhythm of modern lifestyles expedites, fast food gradually becomes the mainstream of daily meals, mainly consists of high carbohydrates, salts, fats and low celluloses. Long term intake of fast food has been correlated to multiple chronic diseases, such as diabetes, poor nutrition and obesity. Unlike fast food consumption, exercise plays a key role in maintaining and strengthening good physical health. Generally, both two indicators would show different kinds of associations with personal BMI in magnitudes and signs.We built a multi-regression model for exploring association between BMI and frequency of fast food consumption with incorporation of frequency of exercises.
+  As the rhythm of modern lifestyles expedites, fast food gradually becomes the mainstream of daily meals, mainly consisting of high carbohydrates, salts, fats and low celluloses. Long term intake of fast food has been correlated to multiple chronic diseases, such as diabetes, poor nutrition and obesity. Unlike fast food consumption, exercise plays a key role in maintaining and strengthening good physical health. Generally, both two indicators would show different kinds of associations with personal BMI in magnitudes and signs. We built a multi-regression model to explore the association between BMI and frequency of fast food consumption, incorporating the frequency of exercises.
 
 ```{r, echo = FALSE, fig.height=8, fig.width=10, warning=FALSE, message=FALSE}
-
-library(plotly)
 raw_eathealth = read_csv("ehresp_2014.csv") %>%
   mutate(
     tucaseid = as.factor(tucaseid)
@@ -245,7 +260,8 @@ summ_mlr_plot = summary(mlr_plot)
 
 ```
   
-  From the scatter plot of BMI vs. Frequency of Fast Food Consumption, originally continuous variables are shown approximately to categorical variables, which might be caused by the way of data collection: Questionnaire. Generally, the regression line of BMI vs. frequency of fast food consumption is positive. As the consumption of fast food increases, the value of BMI would also increase, indicating that fast food consumption relates to decreased eating health. The regression line of BMI vs. frequency of exercise is negative, which means higher frequency of exercise would result in lower BMI. However, according to the R-squared of `r summ_mlr_plot[["r.squared"]]`, the model need further adjustment for detecting associations between BMI and two kinds of frequencies. So, multi-linear regression model incorporating both indicators was built.
+  From the scatter plot of BMI vs. Frequency of Fast Food Consumption, originally continuous variables are shown approximately to categorical variables, which might be caused by the way of data collection: Questionnaire. Generally, the regression line of BMI vs. frequency of fast food consumption is positive. As the consumption of fast food increases, the value of BMI would also increase, indicating that fast food consumption relates to decreased eating health. The regression line of BMI vs. frequency of exercise is negative, which means higher frequency of exercise would result in lower BMI. However, according to the R-squared of `r summ_mlr_plot[["r.squared"]]`, the model need further adjustment to detect the associations between BMI and two kinds of frequencies. So, multi-linear regression model incorporating both indicators was built.
+  
 ```{r, echo=FALSE, fig.height=8, fig.width=10, warning=FALSE, message=FALSE}
 
 mlr_model = lm(erbmi ~ eufastfdfrq + euexfreq, data = internal_indicators)
@@ -256,10 +272,13 @@ plot(mlr_model)
 
 ```  
   
+
+  Multiregression model of BMI vs. Frequency of Fast Food Consumption and Exercise showed that the estimated coefficient for fast food consumption is `r round(mlr_model[["coefficients"]][["eufastfdfrq"]], 4)` with p.value of `r round(summ_mlr[["coefficients"]][11], 4)`and for exercise is `r round(mlr_model[["coefficients"]][["euexfreq"]], 4)` with p.value of `r summ_mlr[["coefficients"]][12]`. R-squared: `r round(summ_mlr[["r.squared"]], 4)` 
+  Both p.values prove the statistical significance of two coefficients in the multiregression model. Low R-squared value allows more residual and outlier tests for the model. Obviously, residuals for the model are deviated from normal distribution. Both scatter plots and Leverage plots show that there are multiple outliers resided in the model, affecting the fitted model for the regression of BMI vs. frequency of food consumption and exercise.
+
   Multi-regression model showed that the estimated coefficient for fast food consumption is `r round(mlr_model[["coefficients"]][["eufastfdfrq"]], 4)` with p.value of `r round(summ_mlr[["coefficients"]][11], 4)` and for exercise is `r round(mlr_model[["coefficients"]][["euexfreq"]], 4)` with p.value of `r summ_mlr[["coefficients"]][12]`. R-squared: `r round(summ_mlr[["r.squared"]], 4)` 
   Both p.value prove the statistical significance of two coefficients in the multiregression model. Low R-squared value allows more residual and outlier tests for the model. Obviously, residuals for the model are deviated from normal distribution. Both scatter plots and Leverage plots show that there are multiple outliers resided in the model, affecting the fitted model for the regression of BMI vs. frequency of food consumption and exercise.
   
-  Adjustments are performed by controlling existed outliers.
 
 ```{r, echo=FALSE,  fig.height=8, fig.width=10, warning=FALSE, message=FALSE}
 adjust_model = internal_indicators %>%
@@ -280,15 +299,16 @@ qqnorm(resid(mlr_adjust), xlab = "Expected Value", ylab = "Residual",
 qqline(resid(mlr_adjust))
 ```
 
-  `r nrow(outliers)` outliers are excluded by "internally studentized residuals".  Comparing with unadjusted model, adjusted multiregression model with exclusion of outliers showed lower estimated slope of `r round(mlr_adjust[["coefficients"]][["eufastfdfrq"]], 4)`for linear regression BMI vs. Frequency of food consumption with higher statistical significance proved from lower p.value of `r round(mlr_adjust_summ[["coefficients"]][11], 4)`. QQ plot presented that exclusion of outliers made the residuals more approaching to normal distribution. Regression of BMI vs. exercise presented higher estimated slope of `r mlr_adjust[["coefficients"]][["euexfreq"]]`. 
+  `r nrow(outliers)` outliers are excluded by "internally studentized residuals".  Comparing with unadjusted model, adjusted multi-regression model with exclusion of outliers showed lower estimated slope of `r round(mlr_adjust[["coefficients"]][["eufastfdfrq"]], 4)`for linear regression BMI vs. Frequency of food consumption with higher statistical significance proved from lower p.value of `r round(mlr_adjust_summ[["coefficients"]][11], 4)`. QQ plot presented that exclusion of outliers made the residuals more approaching to normal distribution. Regression of BMI vs. exercise presented higher estimated slope of `r mlr_adjust[["coefficients"]][["euexfreq"]]`. 
   R-squared: `r round(mlr_adjust_summ[["r.squared"]], 4)` with increment of `r round(mlr_adjust_summ[["r.squared"]], 4) - round(summ_mlr[["r.squared"]], 4)`
   Adjusted R-squared: `r round(mlr_adjust_summ[["adj.r.squared"]], 4)` with increment of `r round(mlr_adjust_summ[["adj.r.squared"]], 4) - round(summ_mlr[["adj.r.squared"]], 4)`
   
-  In general, from the multiregression model, we can conclude that exercises affects BMI in the positive way which improving personal physical health as the frequency of engaging activities increases. Even though the estimated coefficient of BMI vs.Frequency of fast food consumption is only `r round(mlr_adjust[["coefficients"]][["eufastfdfrq"]], 4)`, it is consistent with what we expected before establishing the model that the physical health will decreases as the consumption of fast food increases. In other words, eating health is negatively impacted by fast food consumption but positively impacted by exercises.
+
+  In general, due to data source from Questionnaire, there would be bias existed while respondents answered frequency of fast food consumption and exercises. From the multi-regression model, we can conclude that exercises affects BMI in the positive way which improving personal physical health as the frequency of engaging activities increases. Even though the estimated coefficient of BMI vs. Frequency of fast food consumption is only `r round(mlr_adjust[["coefficients"]][["eufastfdfrq"]], 4)`, it is consistent with what we expected before establishing the model that the physical health will decreases as the consumption of fast food increases. In other words, eating health is negatively impacted by fast food consumption but positively impacted by exercises.
+ 
+  In general, from the multi-regression model, we can conclude that exercises affects BMI in the positive way which improving personal physical health as the frequency of engaging activities increases. Even though the estimated coefficient of BMI vs.Frequency of fast food consumption is only `r round(mlr_adjust[["coefficients"]][["eufastfdfrq"]], 4)`, it is consistent with what we expected before establishing the model that the physical health will decreases as the consumption of fast food increases. In other words, eating health is negatively impacted by fast food consumption but positively impacted by exercises.
   
-  
-  
-#### Hypothesis Testing
+## Hypothesis Testing
 
 We want to test whether respondents who spent longer time in primary eating or drinking would also be those who spent longer time in secondary eating.
 
@@ -313,20 +333,25 @@ prim_sec_eat =
 
 ad.test(prim_sec_eat$diff_time_num)
 ``` 
+
 According to Anderson-Darling normality test, since p-value is smaller than 0.05, we reject null hypothesis and conclude that the difference between primary eating time and secondary eating time is normally distributed. Therefore, we can use paired t-test.
 
 ```{r, echo = FALSE}
 t.test(prim_sec_eat$ertpreat, prim_sec_eat$ertseat)
 ```
-According to paired t-test, since p-value is smaller than 0.05, we reject null hypothesis and conclude that respondents do not spend same amount of time on primary eating and secondary eating. We are 95% confident that respondents spend 31 to 35 minutes longer on primary eating than on secondary eating. 
+
+According to paired t-test, since p-value is smaller than 0.05, we reject null hypothesis and conclude that respondents do not spend same amount of time on primary eating and secondary eating. We are 95% confident that on average each respondent spends 31 to 35 minutes longer on primary eating than on secondary eating. 
 
 
 
-### Conclusion
+## Conclusion
 
-  In conclusion, because data collection was Questionnaire, resulting large problem on statistical analysis for different indicators. Two estimated coefficients within the multi-regression model are not high enough for concluding the strong association as we expected, we still can fit the model with the analysis of association generated from the plot with statistical significance from the dataset. However, due to inclination on preferring integers and recall biases resided in respondents, continuous variables are negatively impacted by data collection. Generally, eating health by using BMI as the measured parameter is affected positively with personal physical activities and negatively with fast food consumption.
+  In conclusion, because data collection was Questionnaire, resulting large problem on statistical analysis for different indicators. Two estimated coefficients within the multi-regression model are not enough for concluding the strong association as we expected, we still can fit the model with the analysis of association generated from the plot with statistical significance from the dataset. However, due to inclination on preferring integers and recall biases resided in respondents, continuous variables are negatively impacted by data collection. Generally, eating health by using BMI as the measured parameter is affected positively with personal physical activities and negatively with fast food consumption.
+  
+  On average, people spend half an hour longer on primary eating than secondary eating.
   
   
   
   
   
+

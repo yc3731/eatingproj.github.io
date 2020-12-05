@@ -11,7 +11,7 @@
 
 
 
-<title>Analysis of Eating and Health Module Data</title>
+<title>About</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,9 +19,6 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -253,69 +250,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -323,16 +257,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -356,15 +280,6 @@ div.tocify {
   <a href="about.html">About</a>
 </li>
 <li>
-  <a href="descriptive_stats.html">Descriptive Statistic</a>
-</li>
-<li>
-  <a href="hypothesis_testing.html">Hypothesis Testing</a>
-</li>
-<li>
-  <a href="mlr_analysis.html">MLR Analysis</a>
-</li>
-<li>
   <a href="mailto:&lt;sz2872@cumc.columbia.edu&gt;">
     <span class="fa fa-envelope fa-lg"></span>
      
@@ -385,51 +300,17 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Analysis of Eating and Health Module Data</h1>
+<h1 class="title toc-ignore">About</h1>
 
 </div>
 
 
-<center>
-<img src="images/Wellness-Header.jpg" width="500" />
-</center>
-<p><br></p>
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>Nowadays, as the socioeconomoic level of people’ lives develops, more and more attention are paid at enhancing personal health and lifestyles. Eating health, as an indispensable component of individual’s biological maintainence, plays a vital role in strengthening personal immunity and preventing chronic diseases, including regular eating habits and nutritional diets. Addressed in “Eating and Health Module” (2019, Economic Research Service), eating patterns are strongly affected by people’s economic status and behaviors, including household income, engagements in physical activities, food preparation styles, accessibilities to grocery stores, and etc. From the aspect of public health and policy, understanding how these indicators affect personal eating health can assist the government to develop effective and efficient food and nutrition assistance programs, increasing stable and harmonized relationship between people and society. This project, starting from these beneficial standspoint, explores impacts of different indicators on personal eating health.</p>
-</div>
-<div id="data" class="section level1">
-<h1>Data</h1>
-<p>The dataset is obtained and downloaded from Economic Research Service of United States Department of Agriculture, named “Eating and Health Module”. The dataset is case-specific repsondent file, including general personal biolgical information (height, weight), household information (income, engaged government assistance programs), eating habits (fast food consumption, drink habits, food preparation), and physcial activities of repsondents. The whole data collection was conducted by Questionnaire and Survey, based on answers of voluntary respondents. We mainly started with exploring sample selection of repsondents via several descriptive statistics on their general health information. Then we analyzed associations or distributions of internal or external indicators for understanding their impacts on personal eating health by using persoanl BMI value as the parameter, including accessibilities of grocery stores, conditions of household income, frequency of fast food consumptions and engagements of physical activities. Analysis would include different association plots and multi-linear regression model. We aso established the hypothesis testing for measuring similarity or difference resided between primary and secondary eating behaviors of respondents.</p>
-</div>
-<div id="findings" class="section level1">
-<h1>Findings</h1>
-</div>
-<div id="report" class="section level1">
-<h1>Report</h1>
-<p>Our report can be found <a href="classfication_report.html">here</a>.</p>
-</div>
-<div id="team-members" class="section level1">
-<h1>Team members</h1>
-<ul>
-<li>Qetsiyah Wang yw3439</li>
-<li>Yue Chen yc3732 ｜<a href="https://yc3731.github.io/">Website</a></li>
-<li>Qianhui Xu qx2199 ｜<a href="https://qx2199quintus.github.io/">Website</a></li>
-<li>Shunyi Zhang sz2872 ｜<a href="https://shane-1996.github.io/">Website</a></li>
-</ul>
-</div>
-<div id="tips" class="section level1">
-<h1>Tips</h1>
-<center>
-<img src="images/tips.jpeg" width="500" />
-</center>
-<p><br></p>
-</div>
+<p>The intended final dataset will be monitored by analyzing different potential indicators. From personal income levels and accessibility to grocery stores, external factors impacts on eating habits can be analyzed. Also, how do internal factors, including physical activities and drinking habits, correlate with personal eating? By exploiting personal BMI and physical health as indicators, we can explore the association between eating habits and health.</p>
+<p>The anticipated data resources is “ehresp.csv”, which is collected by questionaire for supporting foor and nutrition programs , provided by United States Department of Agriculture and downloaded from U.S Bureau of Labor Statistics.</p>
+<p>Group Members: Yue Chen yc3731, Shunyi Zhang sz2872, Qianhui Xu qx2199, Qetsiyah Wang yw3439</p>
 
 
 
-</div>
-</div>
 
 </div>
 
@@ -462,32 +343,6 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

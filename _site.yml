@@ -5,6 +5,12 @@ navbar:
   right:
     - text: "About"
       href: about.html
+    - text: "Descriptive Statistic"
+      href: descriptive_stats.html
+    - text: "Hypothesis Testing"
+      href: hypothesis_testing.html
+    - text: "MLR Analysis"
+      href: mlr_analysis.html
     - icon: fa-envelope fa-lg
       href: mailto:<sz2872@cumc.columbia.edu>
     - icon: fa-github fa-lg

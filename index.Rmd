@@ -8,6 +8,13 @@ output:
 font-family: "Arial"
 ---
 
+<center>
+
+![](images/Wellness-Header.jpg){width=500px}
+</center>
+
+<br>
+
 # Introduction
 
 Nowadays, as the socioeconomoic level of people' lives develops, more and more attention are paid at enhancing personal health and lifestyles. Eating health, as an indispensable component of individual's biological maintainence, plays a vital role in strengthening personal immunity and preventing chronic diseases, including regular eating habits and nutritional diets. Addressed in "Eating and Health Module" (2019, Economic Research Service), eating patterns are strongly affected by people's economic status and behaviors, including household income, engagements in physical activities, food preparation styles, accessibilities to grocery stores, and etc. From the aspect of public health and policy, understanding how these indicators affect personal eating health can assist the government to develop effective and efficient food and nutrition assistance programs, increasing stable and harmonized relationship between people and society. This project, starting from these beneficial standspoint, explores impacts of  different indicators on personal eating health.
@@ -22,11 +29,23 @@ The dataset is obtained and downloaded from Economic Research Service of United 
 
 
 # Report
+
 Our report can be found [here](classfication_report.html).
 
 
 # Team members
+
 - Qetsiyah Wang yw3439
-- Yue Chen yc3732
-- Qianhui Xu qx2199
-- Shunyi Zhang sz2872
+- Yue Chen yc3732      ｜[Website](https://yc3731.github.io/)
+- Qianhui Xu qx2199    ｜[Website](https://qx2199quintus.github.io/)
+- Shunyi Zhang sz2872  ｜[Website](https://shane-1996.github.io/)
+
+
+# Tips
+
+<center>
+
+![](images/tips.jpeg){width=500px}
+</center>
+
+<br>

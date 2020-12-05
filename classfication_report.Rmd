@@ -171,6 +171,7 @@ From the plot, we could see that the higher-income population has larger proport
 
 ##### Plot for Distribution by spouse conditions and BMI
 ```{r, echo = FALSE}
+
 external_categ_house = external_category_crude %>%
 group_by(bmi_new,change_in_work_of_spouse)%>%
 mutate(count_house=n())%>%
@@ -183,6 +184,7 @@ house=
 ggplot(external_categ_house) + geom_col(aes(x = 1, y = n, fill =bmi_new), position = "fill") +coord_polar(theta = "y") + facet_wrap(~ change_in_work_of_spouse) 
 house
 ```
+
 We are interested in this area is because we concern whether spouse's working status would actually influence BMI. Interestingly, the proportion of normal population among "partner's working time increase" group are approximaterly the same as that among "partner's lose job"group. Also, the proportion of normal weight population among "partner's lose job"group are significantly higher than that among" partner's find  job"group .In addition, we could not see a trend of increase or decrease of the proportion of neither normal weighted nor obese population among those 5 household conditions. Therefore, it seems like spouse's working status will not significantly influence BMI.
 
 ##### Plot for preferenece in grocery store 

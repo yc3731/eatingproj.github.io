@@ -16,6 +16,26 @@ output: html_document
 
 ```{r, include=FALSE, warning=FALSE, message=FALSE}
 library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(pastecs)
+library(plotly)
+library(goftest)
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
 raw_eathealth = read_csv("ehresp_2014.csv")
 ```
 
@@ -28,7 +48,41 @@ raw_eathealth = read_csv("ehresp_2014.csv")
 
 #### Descriptive Statistics for Respondents
 
+# Income level.
+```{r}
+income_tbl = 
+  raw_eathealth %>%
+  count(tucaseid) %>%
+  mutate(
+    erincome = factor(raw_eathealth$erincome, levels = c(-1, 1, 2, 3, 4, 5), labels = c("Blank", "Income > 185% of poverty threshold", "Income <= 185% of poverty threshold", "130% of poverty threshold < Income < 185% of poverty threshold", "Income > 130% of poverty threshold", "Income <= 130% of poverty threshold"))
+  ) %>%
+  plot_ly(x = ~erincome, y = ~n, color = ~erincome, type = "bar")
 
+income_tbl
+```
+
+The majority of the study objects are on the highest income level - their income is greater than 185% of poverty threshold. The income level with the second largest study population come from people who are below or equal to 130% of poverty threshold. Only 36 study subjects have income greater than 130% of poverty threshold.
+
+# BMI, height, and weight.
+```{r}
+raw_eathealth %>%
+   select(erbmi, euhgt, euwgt) %>%
+   filter(erbmi > 0, euhgt > 0, euwgt > 0) %>%
+   summary() %>%
+   format(scientific = F, digits = 2)
+```
+Among all study objects, the mean height is 66.69 inches, and the mean weight is 176.3 pounds.
+
+The mean BMI is 27.77, and third quantile is 30.7, while the maximum BMI is 73.6. We suspect there might be some BMI outliers on the upper end.
+
+```{r}
+raw_eathealth %>%
+  filter(erbmi > 0, euhgt > 0, euwgt > 0) %>%
+  ggplot(aes(x = "", y = erbmi)) + 
+  geom_boxplot()
+```
+
+The boxplot did show that there are more outliers on the upper end than on the lower end of BMI.
 
 #### Association Analysis for different Indicators vs. Eating Health
 
@@ -120,5 +174,35 @@ qqline(resid(mlr_adjust))
   In general, due to Questionnaire way used on data collection, there would be bias existed while respondents answered frequency of fast food consumption and exercises. From the multiregression model, we can conclude that exercises affects BMI in the positive way which improving personal phyiscal health as the frequency of engaging activities increases. Even though the estimated coefficient of BMI vs.Frequency of fast food consumption is only `r round(mlr_adjust[["coefficients"]][["eufastfdfrq"]], 4)`, it is consistent with what we expected before establishing the model that the physical health will decreases as the consumption of fast food increases. In other words, eating health is negatively impacted by fast food consumption but positively impacted by exercises.
   
 #### Hypothesis Testing
+
+We want to test whether respondents who spent longer time in primary eating or drinking would also be those who spent longer time in secondary eating.
+
+H0: mean primary eating time = mean secondary eating time.
+H1: mean primary eating time =\ mean secondary eating time.
+
+Statistical method: paired t-test. 
+
+```{r}
+
+prim_sec_eat = raw_eathealth %>%
+  select(erbmi, ertpreat, ertseat) %>%
+  filter_all(all_vars(. > 0))
+
+prim_sec_eat =
+  prim_sec_eat%>%
+  mutate(
+    diff_time = ertpreat - ertseat,
+    diff_time_num = as.numeric(diff_time)
+  )
+
+
+ad.test(prim_sec_eat$diff_time_num)
+``` 
+According to Anderson-Darling normality test, since p-value is smaller than 0.05, we reject null hypothesis and conclude that the difference between primary eating time and secondary eating time is normally distributed. Therefore, we can use paired t-test.
+
+```{r}
+t.test(prim_sec_eat$ertpreat, prim_sec_eat$ertseat)
+```
+According to paired t-test, since p-value is smaller than 0.05, we reject null hypothesis and conclude that respondents do not spend same amount of time on primary eating and secondary eating. We are 95% confident that respondents spend 31 to 35 minutes longer on primary eating than on secondary eating. 
 
 ### Conclusion

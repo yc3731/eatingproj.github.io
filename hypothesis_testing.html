@@ -9,7 +9,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Yue Chen" />
 
 
 <title>Hypothesis Testing</title>
@@ -311,36 +310,13 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Hypothesis Testing</h1>
-<h4 class="author">Yue Chen</h4>
 
 </div>
 
 
-<div id="tidy-dataset" class="section level1">
-<h1>Tidy Dataset</h1>
-<pre class="r"><code>raw_eathealth = read.csv(&quot;ehresp_2014.csv&quot;) %&gt;%
-  mutate(
-    tucaseid = as.factor(tucaseid)
-  ) %&gt;%
-  select(tucaseid, starts_with(c(&quot;er&quot;, &quot;eu&quot;)), -erhhch)</code></pre>
-<div id="c.-hypothesis-testing" class="section level2">
-<h2>C. Hypothesis Testing</h2>
 <p>We want to test whether respondents who spent longer time in primary eating or drinking would also be those who spent longer time in secondary eating.</p>
 <p>H0: mean primary eating time = mean secondary eating time. H1: mean primary eating time = mean secondary eating time.</p>
 <p>Statistical method: paired t-test.</p>
-<pre class="r"><code>prim_sec_eat = raw_eathealth %&gt;%
-  select(erbmi, ertpreat, ertseat) %&gt;%
-  filter_all(all_vars(. &gt; 0))
-
-prim_sec_eat =
-  prim_sec_eat%&gt;%
-  mutate(
-    diff_time = ertpreat - ertseat,
-    diff_time_num = as.numeric(diff_time)
-  )
-
-
-ad.test(prim_sec_eat$diff_time_num)</code></pre>
 <pre><code>## 
 ##  Anderson-Darling test of goodness-of-fit
 ##  Null hypothesis: uniform distribution
@@ -349,7 +325,6 @@ ad.test(prim_sec_eat$diff_time_num)</code></pre>
 ## data:  prim_sec_eat$diff_time_num
 ## An = Inf, p-value = 1.111e-07</code></pre>
 <p>According to Anderson-Darling normality test, since p-value is smaller than 0.05, we reject null hypothesis and conclude that the difference between primary eating time and secondary eating time is normally distributed. Therefore, we can use paired t-test.</p>
-<pre class="r"><code>t.test(prim_sec_eat$ertpreat, prim_sec_eat$ertseat)</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -362,8 +337,6 @@ ad.test(prim_sec_eat$diff_time_num)</code></pre>
 ## mean of x mean of y 
 ##  62.41929  29.37449</code></pre>
 <p>According to paired t-test, since p-value is smaller than 0.05, we reject null hypothesis and conclude that respondents do not spend same amount of time on primary eating and secondary eating. We are 95% confident that respondents spend 31 to 35 minutes longer on primary eating than on secondary eating.</p>
-</div>
-</div>
 
 
 

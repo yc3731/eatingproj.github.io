@@ -200,6 +200,7 @@ house
 We are interested in this indicator is because we concern whether spouse's working status would actually influence BMI. Interestingly, the proportion of normal population among "partner's working time increase" group are approximaterly the same as that among "partner's lose job"group. Also, the proportion of normal weight population among "partner's lose job"group are significantly higher than that among" partner's find  job"group .In addition, we could not see a trend of increase or decrease of the proportion of neither normal weighted nor obese population among those 5 household conditions. Therefore, it seems like spouse's working status will not significantly influence BMI.
 
 ### Density Plot of BMI by Type of Grocery Store 
+
 ```{r, echo = FALSE}
 plot_stor_bmi_one=
 external_indicators_two %>%

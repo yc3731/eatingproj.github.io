@@ -1,6 +1,5 @@
 ---
 title: "Hypothesis Testing"
-author: "Yue Chen"
 output: html_document
 ---
 
@@ -16,8 +15,8 @@ library(goftest)
 
 ```
 
-# Tidy Dataset
-```{r}
+
+```{r include=FALSE}
 
 raw_eathealth = read.csv("ehresp_2014.csv") %>%
   mutate(
@@ -27,7 +26,7 @@ raw_eathealth = read.csv("ehresp_2014.csv") %>%
 
 ```
 
-## C. Hypothesis Testing
+
 
 We want to test whether respondents who spent longer time in primary eating or drinking would also be those who spent longer time in secondary eating.
 
@@ -36,7 +35,7 @@ H1: mean primary eating time =\ mean secondary eating time.
 
 Statistical method: paired t-test. 
 
-```{r}
+```{r echo=FALSE}
 
 prim_sec_eat = raw_eathealth %>%
   select(erbmi, ertpreat, ertseat) %>%
@@ -54,7 +53,10 @@ ad.test(prim_sec_eat$diff_time_num)
 ``` 
 According to Anderson-Darling normality test, since p-value is smaller than 0.05, we reject null hypothesis and conclude that the difference between primary eating time and secondary eating time is normally distributed. Therefore, we can use paired t-test.
 
-```{r}
+
+
+```{r echo=FALSE}
 t.test(prim_sec_eat$ertpreat, prim_sec_eat$ertseat)
+
 ```
 According to paired t-test, since p-value is smaller than 0.05, we reject null hypothesis and conclude that respondents do not spend same amount of time on primary eating and secondary eating. We are 95% confident that respondents spend 31 to 35 minutes longer on primary eating than on secondary eating. 

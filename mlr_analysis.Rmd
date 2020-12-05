@@ -1,7 +1,5 @@
 ---
-title: "mlr_eating_health"
-author: "Qetsiyah Wang"
-date: "12/5/2020"
+title: "MLR Analysis"
 output: html_document
 ---
 
@@ -19,8 +17,8 @@ library(plotly)
 
   Consumption of fast food is a key aspect of eating health nowadays. Generally, for a long period, fast food has been related with bad eating habits and bad physical health. Using BMI as the parameter, we are going to measure the correlation between eating health and the consumption of fast food. Accompanied with the fast food consumption, the frequency of exercise also is incorporated in the regression model for exploring its potential interaction with BMI under the effect of fast food consumption.
 
-## Tidy Dataset for internal indicators
-```{r}
+
+```{r include=FALSE}
 
 raw_eathealth = read_csv("ehresp_2014.csv") %>%
   mutate(
@@ -34,9 +32,9 @@ internal_indicators = raw_eathealth %>%
 
 ```
 
-## Scatter plots of BMI vs. Frequency of Fast Food Consumption and Exercise
+### Scatter plots of BMI vs. Frequency of Fast Food Consumption and Exercise
 
-```{r}
+```{r include=FALSE}
 
 fig_data = internal_indicators %>%
   pivot_longer(
@@ -51,21 +49,26 @@ fig_data = internal_indicators %>%
 
 mlr_plot = fig_data %>%
   lm(erbmi ~ value * indicator, data = .) 
-  
+```  
+
+```{r echo=FALSE}
+plot_ani=
 fig_data %>%
   mutate(
     fit_value = fitted(mlr_plot)
   ) %>%
   plot_ly(x = ~ value, y = ~erbmi, frame = ~ indicator, color = ~ indicator, type = "scatter") %>%
   add_lines(x = ~ value, y = ~ fit_value, frame = ~ indicator, mode = "lines") %>%
-  layout(title = "Scatter plots of BMI vs. Frequency of Fast Food Consumption and Exercise",
+  layout(
          xaxis = list(title = "Frequency"), yaxis = list(title = "BMI")) %>%
   animation_opts(2500, easing = "linear", redraw = T) %>%
   animation_slider(hide = F)
-
+plot_ani
 corr_eff = as.data.frame(round(cor(internal_indicators), 4))
-
+corr_eff
 ```
+
+
   
   From the scatter plot of BMI vs. Frequency of Fast Food Consumption, originally continuous variables are shown approximately to categorical variables, which might be caused by the way of data collection: Questionnaire. Generally, the regression line of BMI vs. frequency of fast food consumption is positive. As the consumption of fast food increases, the value of BMI would also increase, indicating that fast food consumption relates to decreased eating health. 
   
@@ -73,7 +76,7 @@ corr_eff = as.data.frame(round(cor(internal_indicators), 4))
   
   Let's perform multi-regression model for two predictors on BMI.
 
-```{r}
+```{r echo=FALSE}
 
 mlr_model = lm(erbmi ~ eufastfdfrq + euexfreq, data = internal_indicators)
 summ_mlr = summary(mlr_model)
@@ -89,8 +92,8 @@ plot(mlr_model)
   
   Adjustments are performed by controlling existed outliers.
 
-## Adjustments for the multiregression model
-```{r}
+### Adjustments for the multiregression model
+```{r echo=FALSE}
 
 adjust_model = internal_indicators %>%
   mutate(
@@ -111,7 +114,7 @@ mlr_adjust_summ = summary(mlr_adjust)
   R-squared: `r round(mlr_adjust_summ[["r.squared"]], 4)` with increment of `r round(mlr_adjust_summ[["r.squared"]], 4) - round(summ_mlr[["r.squared"]], 4)`
   Adjusted R-squared: `r round(mlr_adjust_summ[["adj.r.squared"]], 4)` with increment of `r round(mlr_adjust_summ[["adj.r.squared"]], 4) - round(summ_mlr[["adj.r.squared"]], 4)`
   
-```{r}
+```{r echo=FALSE}
 qqnorm(resid(mlr_adjust), xlab = "Expected Value", ylab = "Residual",
        main = "QQ Plot of Residuals for Adjusted-MLR")
 qqline(resid(mlr_adjust))

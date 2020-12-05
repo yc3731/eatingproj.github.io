@@ -1,6 +1,5 @@
 ---
 title: "Descriptive Statistics"
-author: "Yue Chen"
 output: html_document
 ---
 
@@ -28,14 +27,15 @@ theme_set(theme_minimal() + theme(legend.position = "bottom"))
 ```
 
 
-```{r}
+```{r include=FALSE}
 ehresp = read.csv("ehresp_2014.csv")
 ```
 The dataset contains `r nrow(ehresp)` responses and `r ncol(ehresp)` variables. We will examine bmi as an outcome variable, and how factors such as income level, exercise frequency, access to grocery stores, primary eating time, and secondary eating time, contribute to bmi.
 
 
-# Income level.
-```{r}
+### Income Level
+
+```{r echo=FALSE}
 income_tbl = 
   ehresp %>%
   count(tucaseid) %>%
@@ -49,8 +49,8 @@ income_tbl
 
 The majority of the study objects are on the highest income level - their income is greater than 185% of poverty threshold. The income level with the second largest study population come from people who are below or equal to 130% of poverty threshold. Only 36 study subjects have income greater than 130% of poverty threshold.
 
-# BMI, height, and weight.
-```{r}
+### BMI, Height, and Weight.
+```{r echo=FALSE}
 ehresp %>%
    select(erbmi, euhgt, euwgt) %>%
    filter(erbmi > 0, euhgt > 0, euwgt > 0) %>%
@@ -61,11 +61,11 @@ Among all study objects, the mean height is 66.69 inches, and the mean weight is
 
 The mean BMI is 27.77, and third quantile is 30.7, while the maximum BMI is 73.6. We suspect there might be some BMI outliers on the upper end.
 
-```{r}
+```{r echo=FALSE}
 ehresp %>%
   filter(erbmi > 0, euhgt > 0, euwgt > 0) %>%
   ggplot(aes(x = "", y = erbmi)) + 
   geom_boxplot()
 ```
-Column {data-width=350}
+
 The boxplot did show that there are more outliers on the upper end than on the lower end of BMI.

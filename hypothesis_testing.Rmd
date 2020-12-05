@@ -1,0 +1,60 @@
+---
+title: "Hypothesis Testing"
+author: "Yue Chen"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+
+library(tidyverse)
+library(dplyr)
+library(plotly)
+library(goftest)
+
+```
+
+# Tidy Dataset
+```{r}
+
+raw_eathealth = read.csv("ehresp_2014.csv") %>%
+  mutate(
+    tucaseid = as.factor(tucaseid)
+  ) %>%
+  select(tucaseid, starts_with(c("er", "eu")), -erhhch)
+
+```
+
+## C. Hypothesis Testing
+
+We want to test whether respondents who spent longer time in primary eating or drinking would also be those who spent longer time in secondary eating.
+
+H0: mean primary eating time = mean secondary eating time.
+H1: mean primary eating time =\ mean secondary eating time.
+
+Statistical method: paired t-test. 
+
+```{r}
+
+prim_sec_eat = raw_eathealth %>%
+  select(erbmi, ertpreat, ertseat) %>%
+  filter_all(all_vars(. > 0))
+
+prim_sec_eat =
+  prim_sec_eat%>%
+  mutate(
+    diff_time = ertpreat - ertseat,
+    diff_time_num = as.numeric(diff_time)
+  )
+
+
+ad.test(prim_sec_eat$diff_time_num)
+``` 
+According to Anderson-Darling normality test, since p-value is smaller than 0.05, we reject null hypothesis and conclude that the difference between primary eating time and secondary eating time is normally distributed. Therefore, we can use paired t-test.
+
+```{r}
+t.test(prim_sec_eat$ertpreat, prim_sec_eat$ertseat)
+```
+According to paired t-test, since p-value is smaller than 0.05, we reject null hypothesis and conclude that respondents do not spend same amount of time on primary eating and secondary eating. We are 95% confident that respondents spend 31 to 35 minutes longer on primary eating than on secondary eating. 

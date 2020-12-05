@@ -2,7 +2,7 @@
 title: "About"
 ---
 <font size = 3>
-<img src ="images/health.jpg">
+<img src ="images/health.jpg" style="width:125%" >
 
 
 
